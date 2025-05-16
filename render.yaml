@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: bbc-blockchain
+    env: docker
+    region: oregon
+    plan: standard
+    dockerfilePath: ./Dockerfile.bbc
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NETWORK_ID
+        value: "1337"
+    ports:
+      - port: 8545
+        protocol: tcp
+      - port: 8546
+        protocol: tcp
+      - port: 30303
+        protocol: tcp
+      - port: 30303
+        protocol: udp 
