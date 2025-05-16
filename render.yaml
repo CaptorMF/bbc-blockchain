@@ -1,16 +1,18 @@
 services:
   - type: web
     name: bbc-blockchain
-    env: docker
+    env: go
     region: oregon
     plan: standard
-    dockerfilePath: ./Dockerfile.bbc
-    healthCheckPath: /
+    buildCommand: go build -o bbc-node ./cmd/geth
+    startCommand: ./bbc-node --datadir /app/data --networkid 1337 --http --http.addr 0.0.0.0 --http.api eth,net,web3,personal,miner,admin --http.corsdomain "*" --ws --ws.addr 0.0.0.0 --ws.api eth,net,web3,personal,miner,admin --ws.origins "*" --nodiscover --allow-insecure-unlock --mine --miner.threads 1
     envVars:
       - key: NODE_ENV
         value: production
       - key: NETWORK_ID
         value: "1337"
+      - key: GO_VERSION
+        value: "1.20"
     ports:
       - port: 8545
         protocol: tcp
