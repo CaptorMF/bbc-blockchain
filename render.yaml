@@ -5,14 +5,44 @@ services:
     region: oregon
     plan: standard
     buildCommand: go build -o bbc-node ./cmd/geth
-    startCommand: ./bbc-node --datadir /app/data --networkid 1337 --http --http.addr 0.0.0.0 --http.api eth,net,web3,personal,miner,admin --http.corsdomain "*" --ws --ws.addr 0.0.0.0 --ws.api eth,net,web3,personal,miner,admin --ws.origins "*" --nodiscover --allow-insecure-unlock --mine --miner.threads 1
+    startCommand: ./bbc-node --datadir ${DATA_DIR} --networkid ${NETWORK_ID} --http --http.addr 0.0.0.0 --http.port ${HTTP_PORT} --http.api ${HTTP_API} --http.corsdomain ${HTTP_CORS_DOMAIN} --ws --ws.addr 0.0.0.0 --ws.port ${WS_PORT} --ws.api ${WS_API} --ws.origins ${WS_ORIGINS} --nodiscover --allow-insecure-unlock --mine --miner.threads ${MINER_THREADS} --miner.etherbase ${MINER_ETHERBASE} --gasprice ${GAS_PRICE} --gaslimit ${GAS_LIMIT}
     envVars:
       - key: NODE_ENV
         value: production
       - key: NETWORK_ID
         value: "1337"
+      - key: CHAIN_ID
+        value: "1337"
       - key: GO_VERSION
         value: "1.20"
+      - key: DATA_DIR
+        value: "/app/data"
+      - key: HTTP_PORT
+        value: "8545"
+      - key: WS_PORT
+        value: "8546"
+      - key: P2P_PORT
+        value: "30303"
+      - key: MINER_THREADS
+        value: "1"
+      - key: MINER_ETHERBASE
+        value: "0x0000000000000000000000000000000000000000"
+      - key: HTTP_API
+        value: "eth,net,web3,personal,miner,admin"
+      - key: WS_API
+        value: "eth,net,web3,personal,miner,admin"
+      - key: HTTP_CORS_DOMAIN
+        value: "*"
+      - key: WS_ORIGINS
+        value: "*"
+      - key: GAS_PRICE
+        value: "100000000000"
+      - key: GAS_LIMIT
+        value: "8000000"
+      - key: ALLOW_INSECURE_UNLOCK
+        value: "true"
+      - key: NODISCOVER
+        value: "true"
     ports:
       - port: 8545
         protocol: tcp
